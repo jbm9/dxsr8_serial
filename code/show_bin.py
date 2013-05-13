@@ -23,10 +23,12 @@ def cof(x,y):
         return "d"
 
 
-    #print "".join([ cof(x,y) for (x,y) in zip(b0, b0) ]) #+  "\t" + "".join(["%02x" % i for i in h0])
+    print "".join([ cof(x,y) for (x,y) in zip(b0, b0) ]) #+  "\t" + "".join(["%02x" % i for i in h0])
 
-toggles = [0] * len(b0)
-netchange = [0] * len(b0)
+TOTAL_BITS = 34*8
+
+toggles = [0] * TOTAL_BITS
+netchange = [0] * TOTAL_BITS
 for l in sys.stdin:
     h = byteses(l)
     #h = h[13:17]
@@ -35,17 +37,19 @@ for l in sys.stdin:
 
     darr = [ cof(x,y) for (x,y) in zip(b0, b) ]
 
-    #print "".join(darr) #+ "\t" + "".join(["%02x" % i for i in h])
+    print "".join(darr) + "|" #+ "\t" + "".join(["%02x" % i for i in h])
 
-    for i in range(0, len(b0)):
-        if darr[i] != " ":
-            toggles[i] += 1
-            if darr[i] == "U":
-                netchange[i] += 1
-            else:
-                netchange[i] -= 1
-
+    for i in range(0, TOTAL_BITS):
+        try:
+            if darr[i] != " ":
+                toggles[i] += 1
+                if darr[i] == "U":
+                    netchange[i] += 1
+                else:
+                    netchange[i] -= 1
+        except Exception, e:
+            pass
     b0 = b
 
-print str(toggles)
-print str(netchange)
+    #print str(toggles)
+    #print str(netchange)

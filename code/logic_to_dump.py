@@ -34,6 +34,8 @@ def parse_char_hex(c):
     if c == "\\n":
         nl = "\n"
 
+    nl = ""
+
     if None == x:
         if c[0] == "'":
             try:
@@ -107,6 +109,8 @@ def packet_h(a):
         "v17": v17
         }
 
+BREAKLEN = 0.01
+
 def stitch_lines(path, prefix):
     retval = []
     f = file(path)
@@ -114,6 +118,7 @@ def stitch_lines(path, prefix):
     f.readline() # drop header
 
     t0 = None
+    tp = None
     curline = ""
     for l in f:
         r = l.split(",")
@@ -122,13 +127,25 @@ def stitch_lines(path, prefix):
 
         if t0 == None:
             t0 = t
+            tp = t
         cp = parse_char(c)
-        curline += cp
-        
-        if cp[-1] == "\n":
+
+        if t - tp > BREAKLEN:
+            #        if cp[-1] == "\n":
             retval.append( (t0, prefix, curline) )
             t0 = None
             curline = ""
+
+        if cp == "4c" and len(curline) == 34*2:
+            curline = curline[0:(34*2)]
+            retval.append( (t0, prefix, curline) )
+            t0 = t
+            tp = t
+            curline = ""
+            
+        curline += cp
+
+        tp = t
 
     if t0 != None:
         retval.append( (t0, prefix, curline) )        
@@ -139,7 +156,7 @@ def stitch_lines(path, prefix):
     return retval
 
 
-h2r = stitch_lines(sys.argv[1], "-->")
+h2r = stitch_lines(sys.argv[1], "    -->")
 r2h = stitch_lines(sys.argv[2], "<--")
 
 flow = h2r + r2h
