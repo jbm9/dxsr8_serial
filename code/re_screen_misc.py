@@ -1,24 +1,11 @@
 #!/usr/bin/env python
 
-# Pulling apart the bits for the first digit of the frequency display,
-# the others look to follow a very similar pattern.
-
-# Sixteen segment displays
-#     YY <-- arrow
-#  AAAAAAAAA
-# HK   M   NC
-# H K  M  N C
-# H  K M N  C
-#   UUU PPP 
-# G  T S R  D
-# G T  S  R D
-# GT   S   RD
-#  EEEEEEEEE    XX <-- decimal
 
 
 def draw_digit(segments):
     digit = """
-    2222>111>000>333   sSS lowLLL   agc sOOO fFFF
+    vfo VVV AA BB  busy:SSSS key:KKKK nb:NN nar:WW star:TTT
+    func:FFFF t/r led: LLL tone:EEE tune:UUU split:III
 """
 
     allsegments = set()
@@ -28,7 +15,7 @@ def draw_digit(segments):
     w = digit
 
     for c in allsegments:
-        if c == "\n" or c == " " or c.islower():
+        if c == "\n" or c == " " or c == ":"  or c.islower():
             continue
         if c in segments:
             w = w.replace(c, "#")
@@ -38,35 +25,36 @@ def draw_digit(segments):
     return w
 
 
-data_rf_amp = {
-    "-20":        "4c435341ea50a0000a000ad00fb99b080b0000000000a99aa99b618ea081038d0400",
-    "-20b":       "4c435341a12a20000a001010100010001100000000000100010001000001e1040400",
-    "-20c":       "4c435341a12aa0000a000a100a100a000b0000000000a99aa001a0000001e1040400",
-    "-20d":       "4c435341b80aa00006000ad00eb99a080b0000000000a000e18d618ca181a84a0400",
-    "-20e":       "4c435341b12aa00006000ad00eb99a080b0000000000a99ac187a0800000081e0400",
-    "-10":        "4c435341ea51a0000a000ad00eb99b080b0000000000a99aa99b618ea081038d0400",
-    "0":          "4c435341ea51a0000a000ad00eb99b080b0000000000a99aa99b618ea081138d0400",
-    "+10":        "4c435341ea51a0000a000ad00eb99b080b0000000000a99aa99b618eb081138d0400",
-    "-20lo":      "4c435341ea50a0000a000ad00eb99b080b0000000000a99aa99b618ea081038d0400",
-    "-20hi-agcs": "4c435341fa50a0000a000ac00eb99a080b0000000000a99aa99b618ea081038c0400",
-    "-20hi-agcf": "4c435341ea50a0000a000ac00eb99a080b0000000000a99aa99b618ea081038d0400",
-  }
+data_misc = {
+    "vfoabusykey": "4c435341b80aa00006000bd00eb99a080b0000000000e18ce18d618ca181a84a0408",
+    "vfoasqlkey":  "4c435341b80aa00006000ad00eb99a080b0000000000e18ce18d618ca181a84a0400",
 
-data = data_rf_amp
+    "vfobsqlkey":  "4c435341ea51a0000a000ad00eb99b080b0000000000a99aa99b618ea081038d0400",
+    "vfobsqlnb":   "4c435341b80aa0000a000ac00eb99a080b0000000000e18ce18d718ca181a84a0400",
+    "vfobsqlnar":  "4c435341b80aa0000a000ac00eb99a080b0000000000a99ab99b618ea181a84a0400",
+    "vfobnostar":  "4c435341fa50a0000a000ac00eb99a080b0000000000a99aa99b618ea080038c0400",
+    "func":    "4c435341fa50a00000100ac00eb99a080b0000000000a99aa99b618ea081038c0400",
+    "vfobtone": "4c435341a12ba0000a000ad00eb99b080b0000000000a99ba99b618e0001e1040400",
+    "vfobfmnotone": "4c435341a12ba0000a000ad00eb99b080b0000000000a99aa99b618e0001e1040400",
+    "vfobtune": "4c435341000130000a000ad00eb99b080b0000000000a99aa99b618e000100000400",
+    "vfobsplit": "4c435341a12be0000a000ad00eb99b080b0000000000a99aa99b618e0001e1040400",
+    }
+
+data = data_misc
 
 
 segments = {
-    "-20": "2SLF",
-    "-20b": "2",
-    "-20c": "2",
-    "-20d": "2",
-    "-20e": "2O",
-    "-20lo": "2LF",    
-    "-10": "21SLF",
-    "0": "210LF",
-    "+10": "2103LF",
-    "-20hi-agcs": "2O",
-    "-20hi-agcf": "2F"
+    "vfoabusykey": "VASKT",
+    "vfoasqlkey" : "VAKT",
+    "vfobsqlkey":  "VBKT",
+    "vfobsqlnb":  "BVNT",
+    "vfobsqlnar":  "VBWT",
+    "vfobnostar": "VB",
+    "func": "F",
+    "vfobtone": "VBTE",
+    "vfobfmnotone": "VBT",
+    "vfobtune": "VBTU",
+    "vfobsplit": "VBTI",
 }
 
 
@@ -123,15 +111,27 @@ for c in all_segments:
 
 print str(decode)
 
-
 for k,segs in segments.iteritems():
     print k + ": " + segs
     print draw_digit(segs)
 
-def print_line(s):
-    segmap = {128: ['2'], 129: ['2'], 2: ['2'], 3: ['2'], 214: ['2'], 6: ['2'], 8: ['2'], 9: ['2'], 258: ['2'], 14: ['2'], 16: ['2'], 17: ['2'], 131: ['2'], 20: ['2'], 22: ['2'], 24: ['2'], 239: ['2'], 30: ['2'], 231: ['2'], 33: ['2'], 191: ['2'], 35: ['2'], 36: ['O'], 37: ['2'], 38: ['2'], 39: ['2'], 40: ['1'], 44: ['2'], 240: ['2'], 46: ['2'], 176: ['2'], 179: ['2'], 53: ['2'], 55: ['2'], 116: ['2'], 187: ['2'], 188: ['2'], 232: ['2'], 241: ['2'], 181: ['2'], 192: ['2'], 65: ['2'], 67: ['2'], 197: ['2'], 199: ['2'], 200: ['2'], 201: ['2'], 183: ['2'], 204: ['2'], 207: ['2'], 208: ['2'], 81: ['2'], 83: ['2'], 251: ['2'], 213: ['2'], 203: ['2'], 185: ['2'], 217: ['2'], 218: ['2'], 219: ['2'], 92: ['L'], 94: ['2'], 95: ['2'], 97: ['2'], 98: ['2'], 99: ['2'], 228: ['3'], 229: ['2'], 195: ['2'], 223: ['2'], 104: ['2'], 107: ['2'], 108: ['2'], 109: ['2'], 111: ['2'], 112: ['L'], 113: ['2'], 115: ['2'], 244: ['0'], 119: ['2'], 248: ['F'], 250: ['2'], 123: ['2'], 255: ['2']}
 
-   
+def print_line(s):
+    segmap = {
+        65: ['V'],
+        66: ['A'],
+        67: ['B'],
+        196: ['W'],
+        267: ['S'],
+        76: ['F'],
+        80: ['S'],
+        212: ['N'],
+        54: ['I'],
+        184: ['E'],
+        52: ['U']
+        }
+
+
 
     bytes = [ int(s[i:i+2], 16) for i in range(0, len(s)-1, 2) ]
     segs = ""
