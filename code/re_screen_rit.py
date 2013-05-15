@@ -4,8 +4,11 @@
 
 def draw_digit(segments):
     digit = """
-    vfo VVV AA BB  busy:SSSS key:KKKK nb:NN nar:WW star:TTT
-    func:FFFF t/r led: LLL tone:EEE tune:UUU split:III
+    txit: TTT    1  FAAB   GGGG
+                222 E  B   M  H
+                 3  E  B   MLLH
+    rxit: RRR       E  C   K  I
+                    EDDC N JJJJ
 """
 
     allsegments = set()
@@ -112,7 +115,6 @@ for k,segs in segments.iteritems():
     print k + ": " + segs
     print draw_digit(segs)
 
-exit
 def print_line(s):
     segmap = {
         160: ['2'],
