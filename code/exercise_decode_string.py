@@ -35,23 +35,35 @@ screens  = [
     
     "4c43534112502f2b6ae804a01aa42ba8110000000000a24aa84a4004038de1840400",
     "4c435341b12a20800a0000d00eb99ba99b0000000000a99aa99ba99a0001081e0400",
+    "4c435341b12a2f5f55000aa99a781cc00f0000000000a99a718de18e0001081e0400",
+    "4c43534102502f3f55a01b0180a010404c43534102502f3f55a01b0180a010400500",
     ]
 
 
 fdisp = FrequencyDisplay()
 mdisp = ModeDisplay()
+rfdisp = RFPowerDisplay()
+agcdisp = AGCDisplay()
+smeterdisp = SMeterDisplay()
 
-for i,s in enumerate(screens):
+def print_state(sin):
+    s = [ int(sin[i:i+2], 16) for i in range(0, len(sin)-1, 2) ]
+
     try:
         mode = mdisp.decode(s)
+
+        rxstate = "%s RF:%+2d %s" % (agcdisp.decode(s), rfdisp.decode(s), smeterdisp.decode_string(s))
         
         if fdisp.is_freq(s):
-            print "[%s] f = %d" % (mode, fdisp.freq(s))
+            print "[%s] f = %d %s" % (mode, fdisp.freq(s), rxstate)
         else:
-            print "[%s] > %s <" % (mode, fdisp.decode(s))
+            print "[%s] > %s < %s" % (mode, fdisp.decode(s), rxstate)
         
     except Exception, e:
         print "Caught exception: " + str(e)
         print
         print "Input #%d: %s" % (i, s)
-        raise e
+    
+
+for i,s in enumerate(screens):
+    print_state(s)
