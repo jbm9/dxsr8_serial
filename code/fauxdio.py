@@ -5,7 +5,7 @@
 
 import serial
 
-ser = serial.Serial('/dev/tty.usbserial-A700eEqF', 38400)
+ser = serial.Serial('/dev/tty.usbserial-A4006Dyk', 38400)
 
 
 curline = ""
