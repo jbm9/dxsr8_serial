@@ -254,7 +254,7 @@ class LCD16_mode_b(LCD16_a):
     SEGMENT_MAP = "AKcTeGUHiCPDNnRE"
 
 class LCD16_mode_c(LCD16_a):
-    SEGMENT_MAP = "KAcxECPDiGkHSNMp"
+    SEGMENT_MAP = "KAcEqCPDiGkHSNMp"
 
 
 class ModeDisplay:
