@@ -302,7 +302,7 @@ class SMeterDisplay():
         if 0 == busy:
             return None
 
-        maxtick = max([ i-136 if 1 == _get_bit(b, i) else 0 for i in range(136, 162+1) ])
+        maxtick = max([ i-136 if 1 == _get_bit(b, i) else 0 for i in range(136, 162) ])
 
         if maxtick == 0:
             return 0

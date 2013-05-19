@@ -6,7 +6,7 @@ import serial
 
 from decode_head import *
 
-ser = serial.Serial('/dev/tty.usbserial-A700eEqF', 38400)
+ser = serial.Serial('/dev/tty.usbserial-A700eEqF', 38400, timeout=1)
 
 
 curline = ""

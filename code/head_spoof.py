@@ -18,7 +18,7 @@ while True:
     print x
 
     if x.startswith("SWDS"):
-        print "KEYS DOWN: " + str(decode_SWDS(x))
+        print "                    KEYS DOWN: " + str(decode_SWDS(x))
     
     ser.write(x)
 
