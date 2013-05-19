@@ -168,7 +168,7 @@ class LCD16:
         lit_key = "".join(sorted([ c if c.isupper() else "" for c in self.lit]))
 
         if lit_key not in self.lookup:
-            print ">>> %s MISSING: %s" % (str(self.__class__),  self.lit, )
+            print ">>> %s MISSING: %s" % (str(self.__class__),  self.lit )
             print self.draw()
             return None
 
@@ -254,7 +254,7 @@ class LCD16_mode_b(LCD16_a):
     SEGMENT_MAP = "AKcTeGUHiCPDNnRE"
 
 class LCD16_mode_c(LCD16_a):
-    SEGMENT_MAP = "KAcEeCPDiGkHSNMp"
+    SEGMENT_MAP = "KAcxECPDiGkHSNMp"
 
 
 class ModeDisplay:
