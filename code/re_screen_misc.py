@@ -38,12 +38,20 @@ data_misc = {
     "vfobfmnotone": "4c435341a12ba0000a000ad00eb99b080b0000000000a99aa99b618e0001e1040400",
     "vfobtune": "4c435341000130000a000ad00eb99b080b0000000000a99aa99b618e000100000400",
     "vfobsplit": "4c435341a12be0000a000ad00eb99b080b0000000000a99aa99b618e0001e1040400",
+
+    "foo": "4c4353410251260b65018ee80ca81a40050000000000408e408ea18a138df1850a00",
+    "foo2": "4c435341a80b2fdf550000c81e781ce81f0000000000618cd187618ca181b84b0a00",
+    "foo3": "4c435341a80b2fdf55000aa99a781ce81f0000000000e00cc187618ca181b84b0a00",
+    
     }
 
 data = data_misc
 
 
 segments = {
+    "foo": "AT",
+    "foo2": "ATW",
+    "foo3": "AT",
     "vfoabusykey": "VASKT",
     "vfoasqlkey" : "VAKT",
     "vfobsqlkey":  "VBKT",

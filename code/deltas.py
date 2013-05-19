@@ -41,7 +41,7 @@ mode_c = {
     "P": 38,
     }
 
-pts = mode_c
+pts = mode_a
 
 base = min(pts.values())
 
